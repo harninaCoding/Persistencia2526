@@ -14,6 +14,7 @@ public class Principal {
 		String URL_BASEDATOS = "jdbc:mysql://localhost:3307/ejemplo";
 
 		try {
+			//se hace la carga del driver de mysql
 			Class.forName(CONTROLADOR);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
