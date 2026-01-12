@@ -1,0 +1,47 @@
+package modelo.ImplDAO;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import mapper.Mapper;
+import modelo.AbstractDAO.DaoFactory;
+import modelo.AbstractDAO.PersonaDAO;
+import modelo.acceso.AccessJdbc;
+
+public class DAOFactoryJDBC extends DaoFactory {
+	AccessJdbc accessJdbc;
+
+	public DAOFactoryJDBC() throws ClassNotFoundException, SQLException {
+		super();
+		// EStos parametros pueden ser pasado por parametros o configurados en otro
+		// sitio
+		accessJdbc = new AccessJdbc("ejemplo", "harnina", "zzzz");
+	}
+
+	@Override
+	public PersonaDAO getPersonaDAO() {
+		return new PersonaDAOJdbc(accessJdbc);
+	}
+
+	@Override
+	public AlumnoDAOJDBC getAlumnoDAO() {
+		return new AlumnoDAOJDBC(this);
+	}
+
+	public <T> Collection<T> findAllGeneric(String query, Mapper<ResultSet, T> mapper) {
+		ResultSet conjuntoResultados = accessJdbc.execute(query);
+		Collection<T> coleccion = new ArrayList<T>();
+		try {
+			while (conjuntoResultados.next()) {
+				coleccion.add(mapper.map(conjuntoResultados));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		return coleccion;
+	}
+
+}

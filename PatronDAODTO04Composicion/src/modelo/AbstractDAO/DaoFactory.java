@@ -1,5 +1,6 @@
 package modelo.AbstractDAO;
 
+import modelo.ImplDAO.AlumnoDAOJDBC;
 import modelo.ImplDAO.PersonaDAOJdbc;
 
 public abstract class DaoFactory {
@@ -19,6 +20,6 @@ public abstract class DaoFactory {
 	}
 	
 	public abstract PersonaDAO getPersonaDAO();
-	public abstract AlumnoDAO getAlumnoDAO();
+	public abstract AlumnoDAOJDBC getAlumnoDAO();
 	
 }
