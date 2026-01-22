@@ -1,6 +1,7 @@
 package com.adorno.modelo.repos;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,11 @@ class PersonaRepositoryTest {
 		direccion = direccionRepository.save(direccion);
 		Persona persona = new Persona("luis", "panfleto", direccion, poliza);
 		personaRepository.save(persona);
+		List<Persona> all = personaRepository.findAll();
+		System.out.println(all);
+		//Esta es la forma no bidireccional de buscar un elemento que no es dueño de la relacion
+		Direccion direccion2 = direccionRepository.findById(1l).get();
+		Persona persona2 = personaRepository.findByDireccion(direccion2).get();
+		System.out.println(persona2);
 	}
 }
