@@ -1,5 +1,6 @@
 package com.adorno;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -30,7 +32,14 @@ public class Persona {
 	@NonNull
 	private String apellidos;
 
+	@ManyToMany(mappedBy = "personas")
 	private List<Partido> partidos;
+	
+	
+	//Es necesario crear la lista porque la JPA no sabe si hacerlo o no
+	{
+		partidos=new ArrayList<>();
+	}
 
 	@Override
 	public String toString() {

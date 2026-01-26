@@ -1,5 +1,6 @@
 package com.adorno;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -27,7 +29,18 @@ public class Partido {
 	@NonNull
 	private String EquipoDos;
 
+	// o sea, como esta no tiene mappedby, es la dueña de la relacion, porque este
+	// es la clase
+	// que hace los insert/deletes en la tabla intermedia, al no poner mmapedby aqui
+	// le estamos
+//	dando la responsabilidad de gestionar la relacion a esta clase
+	@ManyToMany
 	private List<Persona> personas;
+
+//Esto agrega este trozo de codigo a cualquier constructor
+	{
+		personas = new ArrayList<>();
+	}
 
 	@Override
 	public int hashCode() {
@@ -50,7 +63,5 @@ public class Partido {
 	public String toString() {
 		return "Partido [EquipoUno=" + EquipoUno + ", EquipoDos=" + EquipoDos + "]";
 	}
-
-	
 
 }
