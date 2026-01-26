@@ -1,8 +1,10 @@
 package com.adorno;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import java.util.List;
 
-public interface PedidoRepository extends PagingAndSortingRepository<Pedido, Long> {
-//	public List<Pedido> findByPersona(Persona persona);
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PedidoRepository extends JpaRepository<Pedido, Long> {
+	public List<Pedido> findByPersona(Persona persona);
 
 }
