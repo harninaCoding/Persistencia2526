@@ -17,10 +17,13 @@ class RelacionNm03ApplicationTests {
 		Persona persona = personaRepository.save(entity);
 		Partido partido1 = new Partido("Socuellamos", "Alcantarilla");
 		Partido partido = partidoRepository.save(partido1);
-		//	funciona en la propietaria de la relacion
-		 partido.getPersonas().add(persona);
+		// funciona en la propietaria de la relacion
+		partido.getPersonas().add(persona);
 		// necesitamos persistir para que funcione en la bbdd
-		 partidoRepository.save(partido);
+		// no aseguras la persistencia, si pones mappedby si. pero debes hacer el save
+		// de la que no tiene mappedby
+		// si lo haces al reves no se guarda la relacion
+		partidoRepository.save(partido);
 		// veremos que pasa
 
 		// Probamos si funcioan desde Persona

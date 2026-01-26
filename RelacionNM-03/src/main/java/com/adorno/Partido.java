@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,7 +37,14 @@ public class Partido {
 	// que hace los insert/deletes en la tabla intermedia, al no poner mmapedby aqui
 	// le estamos
 //	dando la responsabilidad de gestionar la relacion a esta clase
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	// En caso de bbd legacy y donde necesitamos especificar el nombre de la tablas y las columna.
+	//nos vamos a la propietaria de la relacion y ecribimos esto
+	@JoinTable(
+			name="encuentros",
+			joinColumns=@JoinColumn(name="partido"),
+			inverseJoinColumns=@JoinColumn(name="jugador")
+			)
 	private List<Persona> personas;
 
 //Esto agrega este trozo de codigo a cualquier constructor
