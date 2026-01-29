@@ -2,6 +2,8 @@ package com.adorno;
 
 
 import java.time.LocalDate;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -48,7 +50,7 @@ class PedidoRepositoryTest {
 		//Si no os salen pedidos, dentro de la persona, es porque, por defecto, las relaciones
 		//son LAZY. En este caso no tiene acceso porque persona esta detach, o sea, no esta 
 		//conectado con la bbdd
-		persona.getPedidos();
+		assertEquals(1, persona.getPedidos().size());
 		System.out.println();
 	}
 
