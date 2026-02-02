@@ -1,4 +1,4 @@
-package com.adorno;
+package com.adorno.configuration;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
