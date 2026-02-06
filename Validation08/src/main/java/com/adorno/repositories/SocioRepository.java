@@ -1,19 +1,16 @@
 package com.adorno.repositories;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.adorno.entities.IdentificadorVO;
 import com.adorno.entities.Socio;
 
-@Repository
-public class SocioRepository {
 
-	public List<Socio> socios = new ArrayList<>();
+@Repository
+public interface SocioRepository extends JpaRepository<Socio, Long> {
+
 	
-	public List<Socio> findAll(){
-		return socios;
-	}
+	public boolean existsByIdentificador(IdentificadorVO identificador);
 
 }

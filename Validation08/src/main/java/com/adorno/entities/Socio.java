@@ -2,6 +2,7 @@ package com.adorno.entities;
 
 import com.adorno.dtos.SocioDTO;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,17 +26,16 @@ public class Socio {
 	// un valor de 7 caracteres, los dos primeros letras y los ultimos cinco
 	// numeros. El numero a partir de 00120
 	@NonNull
-	@Size(min = 7, max = 7)
+	//si es vo no puedes usar de Validation
+//	@Size(min = 7, max = 7)
+	@Embedded
 	private IdentificadorVO identificador;
+	@NonNull
 	@Size(min = 2, max = 30)
 	private String nombre;
 	@Positive
+	@NonNull
 	@Max(value = 120)
 	private int edad;
-
-	public Socio(SocioDTO dto) {
-		this.identificador = dto.identificador();
-////		yo no lo hago asi pero os lo podeis encontrar
-	}
 
 }
