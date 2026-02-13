@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.adorno.model.dtos.UserCreateDTO;
+import com.adorno.model.dtos.UserInfoDTO;
 import com.adorno.services.UserService;
 
 import jakarta.validation.Valid;
@@ -45,5 +46,10 @@ public class PrincipalController {
 	@DeleteMapping("removal")
 	public ResponseEntity<Boolean> delete(@RequestParam String username){
 		return ResponseEntity.ok(userService.delete(username));
+	}
+	
+	@GetMapping("user")
+	public ResponseEntity<UserInfoDTO> getUser(@RequestParam String username){
+		return userService.getUserByUsername(username).map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
 	}
 }

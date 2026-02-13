@@ -8,14 +8,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.adorno.mappers.UserCreateDTO2UserMapper;
+import com.adorno.mappers.UserEntity2UserInfoDTOMapper;
 import com.adorno.model.ERole;
 import com.adorno.model.RoleEntity;
 import com.adorno.model.UserEntity;
 import com.adorno.model.dtos.UserCreateDTO;
+import com.adorno.model.dtos.UserInfoDTO;
 import com.adorno.repositories.RoleRepository;
 import com.adorno.repositories.UserRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -23,13 +23,24 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final RoleRepository roleRepository;
 	private final UserCreateDTO2UserMapper userCreateDTO2UserMapper;
+	private final UserEntity2UserInfoDTOMapper userEntity2UserInfoDTOMapper;
 
 	public UserService(UserRepository userRepository, RoleRepository roleRepository,
-			UserCreateDTO2UserMapper userCreateDTO2UserMapper) {
+			UserCreateDTO2UserMapper userCreateDTO2UserMapper,
+			UserEntity2UserInfoDTOMapper userEntity2UserInfoDTOMapper) {
 		super();
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.userCreateDTO2UserMapper = userCreateDTO2UserMapper;
+		this.userEntity2UserInfoDTOMapper = userEntity2UserInfoDTOMapper;
+	}
+
+	public Optional<UserInfoDTO> getUserByUsername(String username) {
+		Optional<UserEntity> user = userRepository.findByUsername(username);
+		if (user.isPresent())
+			return Optional.of(userEntity2UserInfoDTOMapper.map(user.get()));
+		return Optional.empty();
+
 	}
 
 	// igual es momento de usar Response
