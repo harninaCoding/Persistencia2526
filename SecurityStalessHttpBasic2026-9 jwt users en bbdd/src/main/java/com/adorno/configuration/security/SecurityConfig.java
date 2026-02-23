@@ -55,11 +55,6 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	PasswordEncoder getPasswordEncoder() {
-		return PlainTextPasswordEncoder.getInstance();
-	}
-
-	@Bean
 	AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder passwordEncoder) {
 		AuthenticationManagerBuilder sharedObject = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
 		sharedObject.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder);
