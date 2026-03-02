@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-		UserDetails userDetails = User.withUsername("Dios").password("1234").roles("ADMIN").build();
+		UserDetails userDetails = User.withUsername("Dios").password("1234").roles("GUEST").build();
 		manager.createUser(userDetails);
 		return manager.loadUserByUsername(username);
 	}
