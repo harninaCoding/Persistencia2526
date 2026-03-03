@@ -46,28 +46,28 @@ class PrincipalControllerTest {
 				// aqui se recoge el body
 				.andReturn().getResponse().getContentAsString();
 		// asi extraigo el token
-		String token = com.jayway.jsonpath.JsonPath.read(response, "$.token");
-		assertNotNull(token);
+		String tokenDeDios = com.jayway.jsonpath.JsonPath.read(response, "$.token");
+		assertTrue(!tokenDeDios.isEmpty());
 
 		///////////////////// 2º Creando un nuevo usuario Teo para poder encontrarlo despues
-		String string = "Teo";
+		String nombreTeo = "Teo";
 		String email = "yo@yo.es";
 		String password = "123AAA.www4";
 		response = mockMvc
-				.perform(post("/users/new").header("Authorization", "Bearer " + token)
+				.perform(post("/users/new").header("Authorization", "Bearer " + tokenDeDios)
 						.contentType(MediaType.APPLICATION_JSON)
 						// Observa que entra con la forma que tenga en el endpoint
 						.content(new ObjectMapper()
-								.writeValueAsString(new UserCreateDTO(email, string, password, "ADMIN"))))
+								.writeValueAsString(new UserCreateDTO(email, nombreTeo, password, "ADMIN"))))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
 		/////////////////////////////////////3º Para probar si tengo acceso con el token
-		response = mockMvc.perform(get("/users/helloSecured").header("Authorization", "Bearer " + token))
+		response = mockMvc.perform(get("/users/helloSecured").header("Authorization", "Bearer " + tokenDeDios))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		assertNotNull(response);
 		
 		/////////////////////////////////4º para probar si no tengo acceso a un endpoint que el filtro no me permite
-		response = mockMvc.perform(get("/users/hello").header("Authorization", "Bearer " + token))
+		response = mockMvc.perform(get("/users/hello").header("Authorization", "Bearer " + tokenDeDios))
 				.andExpect(status().isForbidden()).andReturn().getResponse().getContentAsString();
 		assertTrue(response.isEmpty());
 
@@ -76,12 +76,12 @@ class PrincipalControllerTest {
 //		String email = "yo@yo.es";
 //		String password = "123AAA.www4";
 		response = mockMvc
-				.perform(get("/users/user").param("username", string).header("Authorization", "Bearer " + token)
+				.perform(get("/users/user").param("username", nombreTeo).header("Authorization", "Bearer " + tokenDeDios)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 		// obtener un campo del json
 		String name = com.jayway.jsonpath.JsonPath.read(response, "$.username");
-		assertEquals(string, name);
+		assertEquals(nombreTeo, name);
 		String responseEmail = com.jayway.jsonpath.JsonPath.read(response, "$.email");
 		assertEquals(email, responseEmail);
 
@@ -99,7 +99,7 @@ class PrincipalControllerTest {
 //			assertTrue(true);
 //		}
 		///////////////////// 7º compruebo si he dado de alta al nuevo con login
-		login = new LoginRequest(string, password);
+		login = new LoginRequest(nombreTeo, password);
 		// convierte el objeto en un string correcto
 		json = new ObjectMapper().writeValueAsString(login);
 		// llmada al login
@@ -108,8 +108,8 @@ class PrincipalControllerTest {
 				// aqui se recoge el body
 				.andReturn().getResponse().getContentAsString();
 		// asi extraigo el token
-		token = com.jayway.jsonpath.JsonPath.read(response, "$.token");
-		assertNotNull(token);
+		tokenDeDios = com.jayway.jsonpath.JsonPath.read(response, "$.token");
+		assertNotNull(tokenDeDios);
 
 	}
 
